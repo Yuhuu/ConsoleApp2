@@ -18,7 +18,7 @@ namespace ConsoleApp2
         public const string companyName = "Abas Abdullahi Ali";
         //public const string companyName = "5th week AS"; 
 
-        public static void Main(string[] args)
+        public static void Main200Lo(string[] args)
 
 
         {
@@ -27,16 +27,17 @@ namespace ConsoleApp2
             clientCredentials.UserName.UserName = credentials.Domain + "\\" + credentials.UserName;
             clientCredentials.UserName.Password = credentials.Password;
             //playground
-            // var service = new OrganizationServiceProxy(new Uri("https://intmscrmtst.sectoralarm.net/SectorAlarmfrtstPLAYGROUND/XRMServices/2011/Organization.svc"), null, clientCredentials, null);
-            //DEV
+            //var service = new OrganizationServiceProxy(new Uri("https://intmscrmtst.sectoralarm.net/SectorAlarmfrtstPLAYGROUND/XRMServices/2011/Organization.svc"), null, clientCredentials, null);
+            
+            var service = new OrganizationServiceProxy(new Uri("https://intmscrmtst.sectoralarm.net/SectorAlarmfrtstPLAYGROUND/XRMServices/2011/Organization.svc"), null, clientCredentials, null);
             var organizationList = new List<IOrganizationService>();
             var countryList = new List<string>() { "NO", "SE", "FI", "ES", "IE", "FR" };
-            foreach (var country in countryList)
-            {
-                var addService = new OrganizationServiceProxy(new Uri("https://" + $"intmscrmtst.sectoralarm.net/SectorAlarm{country}tst/XRMServices/2011/Organization.svc"), null, clientCredentials, null);
-                organizationList.Add(addService);
-            }
-            var service = new OrganizationServiceProxy(new Uri("http://sanocrm16d01/SANO/XRMServices/2011/Organization.svc"), null, clientCredentials, null);
+            //foreach (var country in countryList)
+            //{
+            //    var addService = new OrganizationServiceProxy(new Uri("https://" + $"intmscrmtst.sectoralarm.net/SectorAlarm{country}tst/XRMServices/2011/Organization.svc"), null, clientCredentials, null);
+            //    organizationList.Add(addService);
+            //}
+            //var service = new OrganizationServiceProxy(new Uri("http://sanocrm16d01/SANO/XRMServices/2011/Organization.svc"), null, clientCredentials, null);
             //var qAccount = new QueryExpression("account");
             //qAccount.Criteria.AddCondition("adsasdf", ConditionOperator.Equal, "something");
             //var getAccount = service.RetrieveMultiple(qAccount).Entities;
@@ -57,6 +58,8 @@ namespace ConsoleApp2
 
 
             Guid id = CreateLeadWithName(service, companyName);
+            UpdateLead2(service, id);
+            QualifyLead(service, id);
             //CreateSMSWithName(service, companyName);
             //QualifyLead(service, id);
             //Guid id = CreateLeadWithSimpleinfor(service, companyName);
@@ -237,6 +240,18 @@ namespace ConsoleApp2
             newLead["log_movefrominstallation"] = GetInstallation(service).ToEntityReference();
             newLead["log_movetoinstallation"] = GetInstallation(service).ToEntityReference();
             return service.Create(newLead);
+        }
+
+        /*
+    *As all  know, we need to track, update, and track some more.So while you update your lead. be sure that you have chosen the 
+    * right one to update.
+    **/
+        private static void UpdateLead2(OrganizationServiceProxy service, Guid id)
+        {
+            Entity entity = new Entity("lead");
+            entity["leadid"] = id;
+            entity["telephone2"] = "33338888";
+            service.Update(entity);
         }
         /*
         *  Lead create Process allow end user to choose which name they want to use 
