@@ -9,7 +9,7 @@ using System.ServiceModel.Description;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApp1
+namespace ConsoleApp2
 {
     /*
   * Lead is a protential buyer. Lead Process is a class to show the customer acquisition process which
